@@ -2,18 +2,32 @@
 // components
 import Indicator from './Indicator.astro';
 
-import statusData from '../data/status.json';
+import { execSync } from 'node:child_process';
+import { getCollection } from 'astro:content';
 
 // methods
-const lastChecked = Object.values(statusData)
-  .map(v => v.checkedAt)
-  .filter(Boolean)
+// "Last updated" means the last time the tool list changed on main — i.e. a
+// merged tool PR — not the scheduled status check. --first-parent makes a merge
+// commit count with its own (merge) date instead of the branch commit's date.
+function lastToolChange() {
+  try {
+    return execSync('git log -1 --first-parent --format=%cI -- src/content/tools', {
+      encoding: 'utf-8',
+    }).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+// Without git history (e.g. a shallow clone), fall back to the newest addedAt.
+const lastUpdated = lastToolChange() ?? (await getCollection('tools'))
+  .map(tool => tool.data.addedAt.toISOString())
   .sort()
   .at(-1);
 
-const formatted = lastChecked
+const formatted = lastUpdated
   // The build runs on a UTC runner, so pin the zone instead of inheriting it.
-  ? new Date(lastChecked).toLocaleDateString('de-DE', {
+  ? new Date(lastUpdated).toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
