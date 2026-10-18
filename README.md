@@ -6,7 +6,7 @@ Built with [Astro](https://astro.build) as a static site.
 
 ## Adding a tool
 
-Anyone can suggest a tool through the [submission form](https://github.com/lex-zander/hsbi-tools/issues/new?template=tool-submission.yml). Submitting it opens an issue, and a workflow turns that issue into a draft pull request with a new file in `src/content/tools/`. Once a maintainer reviews and merges the PR, the tool goes live with the next build.
+Anyone can suggest a tool through the [submission form](https://github.com/hsbi-gestaltung/hsbi-tools/issues/new?template=tool-submission.yml). Submitting it opens an issue, and a workflow turns that issue into a draft pull request with a new file in `src/content/tools/`. Once a maintainer reviews and merges the PR, the tool goes live with the next build.
 
 Tools can also be added by hand: create a Markdown file in `src/content/tools/` with the frontmatter defined in `src/content.config.ts`.
 
