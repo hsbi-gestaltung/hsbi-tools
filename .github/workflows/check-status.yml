@@ -22,7 +22,10 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    # Pinned instead of ubuntu-latest: Playwright's `--with-deps` only knows
+    # specific Ubuntu releases, and ubuntu-latest moved to 26.04, which
+    # Playwright 1.59 rejects. Bump this together with Playwright.
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
